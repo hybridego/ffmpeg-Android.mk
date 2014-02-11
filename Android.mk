@@ -2,15 +2,15 @@ LOCAL_PATH := $(call my-dir)
 include $(CLEAR_VARS)
 
 LOCAL_MODULE_TAGS := eng
-LOCAL_MODULE := libffmpeg  
+LOCAL_MODULE := libffmpeg
    
-include $(LOCAL_PATH)/config.mak  
+include $(LOCAL_PATH)/config.mak
    
-LOCAL_CFLAGS := -DHAVE_AV_CONFIG_H -std=c99 -mfloat-abi=softfp -mfpu=neon -marm -march=armv7-a -mtune=cortex-a8  
-TARGET_ARCH_ABI :=armeabi-v7a  
-SWSCALE_SRC_FILES := $(addprefix libswscale/, $(sort $(SWSCALE_C_FILES)))  
+LOCAL_CFLAGS := -DHAVE_AV_CONFIG_H -std=c99 -mfloat-abi=softfp -mfpu=neon -marm -march=armv7-a -mtune=cortex-a8
+TARGET_ARCH_ABI :=armeabi-v7a
+SWSCALE_SRC_FILES := $(addprefix libswscale/, $(sort $(SWSCALE_C_FILES)))
   
-SWSCALE_C_FILES := options.c rgb2rgb.c swscale.c utils.c yuv2rgb.c swscale_unscaled.c  
+SWSCALE_C_FILES := options.c rgb2rgb.c swscale.c utils.c yuv2rgb.c swscale_unscaled.c
   
 AVUTIL_C_FILES := adler32.c \
  aes.c \
@@ -45,10 +45,10 @@ AVUTIL_C_FILES := adler32.c \
  sha.c \
  tree.c \
  utils.c \
- arm/cpu.c  
-      
-AVUTIL_SRC_FILES = $(addprefix libavutil/, $(sort $(AVUTIL_C_FILES)))  
-   
+ arm/cpu.c
+
+AVUTIL_SRC_FILES = $(addprefix libavutil/, $(sort $(AVUTIL_C_FILES)))
+
 AVCODEC_C_FILES = allcodecs.c \
     audioconvert.c \
     avpacket.c \
@@ -66,7 +66,7 @@ AVCODEC_C_FILES = allcodecs.c \
     resample.c \
     resample2.c \
     simple_idct.c \
-    utils.c \
+    utils.c
    
 # parts needed for many different codecs
 AVCODEC_C_FILES-$(CONFIG_AANDCT)                  += aandcttab.c
@@ -764,30 +764,29 @@ AVCODEC_C_FILES-$(CONFIG_MLIB)                    += mlib/dsputil_mlib.c        
 # table has a negative effect on performance, copy it in libavcodec as
 # well.
 AVCODEC_C_FILES-$(!CONFIG_SMALL)                  += inverse.c
-   
+
 AVCODEC_C_FILES += $(AVCODEC_C_FILES-yes)  
-   
-AVCODEC_SRC_FILES = $(addprefix libavcodec/, $(sort $(AVCODEC_C_FILES)))  
-   
+
+AVCODEC_SRC_FILES = $(addprefix libavcodec/, $(sort $(AVCODEC_C_FILES)))
+
 AVCODEC_ARM_C_FILES-$(CONFIG_AC3DSP) += arm/ac3dsp_init_arm.c \
-    arm/ac3dsp_arm.S  
-      
+    arm/ac3dsp_arm.S
+
 AVCODEC_ARM_C_FILES-$(CONFIG_DCA_DECODER) += arm/dcadsp_init_arm.c \
-   
-ARMV6-FILES-$(CONFIG_AC3DSP) += arm/ac3dsp_armv6.S  
-   
-AVCODEC_ARM_C_FILES-$(CONFIG_MPEGAUDIODSP) += arm/mpegaudiodsp_init_arm.c  
-ARMV6-FILES-$(CONFIG_MPEGAUDIODSP) += arm/mpegaudiodsp_fixed_armv6.S  
-   
-AVCODEC_ARM_C_FILES-$(CONFIG_VP5_DECODER) += arm/vp56dsp_init_arm.c  
-AVCODEC_ARM_C_FILES-$(CONFIG_VP6_DECODER) += arm/vp56dsp_init_arm.c  
-AVCODEC_ARM_C_FILES-$(CONFIG_VP8_DECODER) += arm/vp8dsp_init_arm.c  
+
+ARMV6-FILES-$(CONFIG_AC3DSP) += arm/ac3dsp_armv6.S
+
+AVCODEC_ARM_C_FILES-$(CONFIG_MPEGAUDIODSP) += arm/mpegaudiodsp_init_arm.c
+ARMV6-FILES-$(CONFIG_MPEGAUDIODSP) += arm/mpegaudiodsp_fixed_armv6.S
+AVCODEC_ARM_C_FILES-$(CONFIG_VP5_DECODER) += arm/vp56dsp_init_arm.c
+AVCODEC_ARM_C_FILES-$(CONFIG_VP6_DECODER) += arm/vp56dsp_init_arm.c
+AVCODEC_ARM_C_FILES-$(CONFIG_VP8_DECODER) += arm/vp8dsp_init_arm.c
 ARMV6-FILES-$(CONFIG_VP8_DECODER) += arm/vp8_armv6.S \
                                      arm/vp8dsp_armv6.S
-   
-AVCODEC_ARM_C_FILES-$(CONFIG_H264DSP) += arm/h264dsp_init_arm.c  
-AVCODEC_ARM_C_FILES-$(CONFIG_H264PRED) += arm/h264pred_init_arm.c  
-   
+
+AVCODEC_ARM_C_FILES-$(CONFIG_H264DSP) += arm/h264dsp_init_arm.c
+AVCODEC_ARM_C_FILES-$(CONFIG_H264PRED) += arm/h264pred_init_arm.c
+
 AVCODEC_ARM_C_FILES += arm/dsputil_init_arm.c \
     arm/dsputil_arm.S \
     arm/fft_init_arm.c \
@@ -796,42 +795,42 @@ AVCODEC_ARM_C_FILES += arm/dsputil_init_arm.c \
     arm/jrevdct_arm.S \
     arm/mpegvideo_arm.c \
     arm/simple_idct_arm.S \
-      
+
 AVCODEC_ARM_C_FILES-$(HAVE_ARMV5TE) += arm/dsputil_init_armv5te.c \
     arm/mpegvideo_armv5te.c \
     arm/mpegvideo_armv5te_s.S \
     arm/simple_idct_armv5te.S \
-      
+
 AVCODEC_ARM_C_FILES-$(HAVE_ARMV6) += arm/dsputil_init_armv6.c \
     arm/dsputil_armv6.S \
     arm/simple_idct_armv6.S \
-    $(ARMV6-FILES-yes)  
-      
+    $(ARMV6-FILES-yes)
+
 VFP-FILES-$(HAVE_ARMV6) += arm/fmtconvert_vfp.S \
-   
+
 AVCODEC_ARM_C_FILES-$(HAVE_ARMVFP) += arm/dsputil_vfp.S \
     arm/dsputil_init_vfp.c \
-    $(VFP-FILES-yes)  
-      
+    $(VFP-FILES-yes)
+
 AVCODEC_ARM_C_FILES-$(HAVE_IWMMXT) += arm/dsputil_iwmmxt.c \
     arm/mpegvideo_iwmmxt.c \
-      
+
 NEON-FILES-$(CONFIG_FFT) += arm/fft_neon.S \
     arm/fft_fixed_neon.S \
-      
+
 NEON-FILES-$(CONFIG_MDCT) += arm/mdct_neon.S \
     arm/mdct_fixed_neon.S \
-      
+
 NEON-FILES-$(CONFIG_RDFT) += arm/rdft_neon.S \
-   
+
 NEON-FILES-$(CONFIG_H264DSP) += arm/h264dsp_neon.S \
     arm/h264idct_neon.S \
     arm/h264cmc_neon.S \
-      
+
 NEON-FILES-$(CONFIG_H264PRED) += arm/h264pred_neon.S \
-   
-NEON-FILES-$(CONFIG_AC3DSP) += arm/ac3dsp_neon.S  
-   
+
+NEON-FILES-$(CONFIG_AC3DSP) += arm/ac3dsp_neon.S
+
 NEON-FILES-$(CONFIG_DCA_DECODER) += arm/dcadsp_neon.S \
     arm/synth_filter_neon.S \
 
@@ -843,29 +842,29 @@ NEON-FILES-$(CONFIG_RV40_DECODER)       += arm/rv34dsp_init_neon.c       \
                                           arm/rv40dsp_init_neon.c       \
                                           arm/rv40dsp_neon.S            \
                                           arm/h264cmc_neon.S            \
-      
+
 NEON-FILES-$(CONFIG_VP3_DECODER) += arm/vp3dsp_neon.S  
-   
+
 NEON-FILES-$(CONFIG_VP5_DECODER) += arm/vp56dsp_neon.S \
     arm/vp3dsp_neon.S \
-   
+
 NEON-FILES-$(CONFIG_VP6_DECODER) += arm/vp56dsp_neon.S \
     arm/vp3dsp_neon.S \
-   
+
 NEON-FILES-$(CONFIG_VP8_DECODER) += arm/vp8dsp_neon.S  
-   
+
 AVCODEC_ARM_C_FILES-$(HAVE_NEON) += arm/dsputil_init_neon.c \
     arm/dsputil_neon.S \
     arm/fmtconvert_neon.S \
     arm/int_neon.S \
     arm/mpegvideo_neon.S \
     arm/simple_idct_neon.S \
-    $(NEON-FILES-yes)  
-      
-AVCODEC_ARM_C_FILES += $(AVCODEC_ARM_C_FILES-yes)  
-   
-AVCODEC_ARM_SRC_FILES = $(addprefix libavcodec/, $(sort $(AVCODEC_ARM_C_FILES)))  
-   
+    $(NEON-FILES-yes)
+
+AVCODEC_ARM_C_FILES += $(AVCODEC_ARM_C_FILES-yes)
+
+AVCODEC_ARM_SRC_FILES = $(addprefix libavcodec/, $(sort $(AVCODEC_ARM_C_FILES)))
+
 AVFORMAT_C_FILES = allformats.c \
     cutils.c \
     id3v1.c \
@@ -877,171 +876,171 @@ AVFORMAT_C_FILES = allformats.c \
     sdp.c \
     seek.c \
     utils.c \
-   
+
 AVFORMAT_C_FILES-$(CONFIG_NETWORK)                   += network.c
 
 # muxers/demuxers
-AVFORMAT_C_FILES-$(CONFIG_A64_MUXER) += a64.c  
-AVFORMAT_C_FILES-$(CONFIG_AAC_DEMUXER) += aacdec.c rawdec.c  
-AVFORMAT_C_FILES-$(CONFIG_AC3_DEMUXER) += ac3dec.c rawdec.c  
-AVFORMAT_C_FILES-$(CONFIG_AC3_MUXER) += rawenc.c  
+AVFORMAT_C_FILES-$(CONFIG_A64_MUXER) += a64.c
+AVFORMAT_C_FILES-$(CONFIG_AAC_DEMUXER) += aacdec.c rawdec.c
+AVFORMAT_C_FILES-$(CONFIG_AC3_DEMUXER) += ac3dec.c rawdec.c
+AVFORMAT_C_FILES-$(CONFIG_AC3_MUXER) += rawenc.c
 AVFORMAT_C_FILES-$(CONFIG_ACT_DEMUXER)               += act.c
 AVFORMAT_C_FILES-$(CONFIG_ADF_DEMUXER)               += bintext.c sauce.c
 AVFORMAT_C_FILES-$(CONFIG_ADX_DEMUXER)               += adxdec.c
 AVFORMAT_C_FILES-$(CONFIG_ADX_MUXER)                 += rawenc.c
-AVFORMAT_C_FILES-$(CONFIG_ADTS_MUXER) += adtsenc.c  
-AVFORMAT_C_FILES-$(CONFIG_AEA_DEMUXER) += aea.c pcm.c  
+AVFORMAT_C_FILES-$(CONFIG_ADTS_MUXER) += adtsenc.c
+AVFORMAT_C_FILES-$(CONFIG_AEA_DEMUXER) += aea.c pcm.c
 AVFORMAT_C_FILES-$(CONFIG_AIFF_DEMUXER)              += aiffdec.c pcm.c isom.c
 AVFORMAT_C_FILES-$(CONFIG_AIFF_MUXER)                += aiffenc.c isom.c
-AVFORMAT_C_FILES-$(CONFIG_AMR_DEMUXER) += amr.c  
-AVFORMAT_C_FILES-$(CONFIG_AMR_MUXER) += amr.c  
-AVFORMAT_C_FILES-$(CONFIG_ANM_DEMUXER) += anm.c  
-AVFORMAT_C_FILES-$(CONFIG_APC_DEMUXER) += apc.c  
-AVFORMAT_C_FILES-$(CONFIG_APE_DEMUXER) += ape.c apetag.c  
-AVFORMAT_C_FILES-$(CONFIG_APPLEHTTP_DEMUXER) += applehttp.c  
+AVFORMAT_C_FILES-$(CONFIG_AMR_DEMUXER) += amr.c
+AVFORMAT_C_FILES-$(CONFIG_AMR_MUXER) += amr.c
+AVFORMAT_C_FILES-$(CONFIG_ANM_DEMUXER) += anm.c
+AVFORMAT_C_FILES-$(CONFIG_APC_DEMUXER) += apc.c
+AVFORMAT_C_FILES-$(CONFIG_APE_DEMUXER) += ape.c apetag.c
+AVFORMAT_C_FILES-$(CONFIG_APPLEHTTP_DEMUXER) += applehttp.c
 AVFORMAT_C_FILES-$(CONFIG_ASF_DEMUXER) += asfdec.c asf.c asfcrypt.c \
                                             avlanguage.c
 AVFORMAT_C_FILES-$(CONFIG_ASF_MUXER)                 += asfenc.c asf.c
-AVFORMAT_C_FILES-$(CONFIG_ASS_DEMUXER) += assdec.c  
-AVFORMAT_C_FILES-$(CONFIG_ASS_MUXER) += assenc.c  
-AVFORMAT_C_FILES-$(CONFIG_AU_DEMUXER) += au.c pcm.c  
-AVFORMAT_C_FILES-$(CONFIG_AU_MUXER) += au.c  
+AVFORMAT_C_FILES-$(CONFIG_ASS_DEMUXER) += assdec.c
+AVFORMAT_C_FILES-$(CONFIG_ASS_MUXER) += assenc.c
+AVFORMAT_C_FILES-$(CONFIG_AU_DEMUXER) += au.c pcm.c
+AVFORMAT_C_FILES-$(CONFIG_AU_MUXER) += au.c
 AVFORMAT_C_FILES-$(CONFIG_AVI_DEMUXER)               += avidec.c
 AVFORMAT_C_FILES-$(CONFIG_AVI_MUXER)                 += avienc.c
-AVFORMAT_C_FILES-$(CONFIG_AVISYNTH) += avisynth.c  
-AVFORMAT_C_FILES-$(CONFIG_AVM2_MUXER) += swfenc.c  
-AVFORMAT_C_FILES-$(CONFIG_AVS_DEMUXER) += avs.c vocdec.c voc.c  
-AVFORMAT_C_FILES-$(CONFIG_BETHSOFTVID_DEMUXER) += bethsoftvid.c  
-AVFORMAT_C_FILES-$(CONFIG_BFI_DEMUXER) += bfi.c  
-AVFORMAT_C_FILES-$(CONFIG_BINK_DEMUXER) += bink.c  
+AVFORMAT_C_FILES-$(CONFIG_AVISYNTH) += avisynth.c
+AVFORMAT_C_FILES-$(CONFIG_AVM2_MUXER) += swfenc.c
+AVFORMAT_C_FILES-$(CONFIG_AVS_DEMUXER) += avs.c vocdec.c voc.c
+AVFORMAT_C_FILES-$(CONFIG_BETHSOFTVID_DEMUXER) += bethsoftvid.c
+AVFORMAT_C_FILES-$(CONFIG_BFI_DEMUXER) += bfi.c
+AVFORMAT_C_FILES-$(CONFIG_BINK_DEMUXER) += bink.c
 AVFORMAT_C_FILES-$(CONFIG_BINTEXT_DEMUXER)           += bintext.c sauce.c
 AVFORMAT_C_FILES-$(CONFIG_BIT_DEMUXER)               += bit.c
 AVFORMAT_C_FILES-$(CONFIG_BIT_MUXER)                 += bit.c
 AVFORMAT_C_FILES-$(CONFIG_BMV_DEMUXER)               += bmv.c
-AVFORMAT_C_FILES-$(CONFIG_C93_DEMUXER) += c93.c vocdec.c voc.c  
+AVFORMAT_C_FILES-$(CONFIG_C93_DEMUXER) += c93.c vocdec.c voc.c
 AVFORMAT_C_FILES-$(CONFIG_CAF_DEMUXER)               += cafdec.c caf.c mov.c mov_chan.c \
                                             isom.c
-AVFORMAT_C_FILES-$(CONFIG_CAF_MUXER) += cafenc.c caf.c riff.c isom.c  
-AVFORMAT_C_FILES-$(CONFIG_CAVSVIDEO_DEMUXER) += cavsvideodec.c rawdec.c  
-AVFORMAT_C_FILES-$(CONFIG_CAVSVIDEO_MUXER) += rawenc.c  
-AVFORMAT_C_FILES-$(CONFIG_CDG_DEMUXER) += cdg.c  
-AVFORMAT_C_FILES-$(CONFIG_CRC_MUXER) += crcenc.c  
-AVFORMAT_C_FILES-$(CONFIG_DAUD_DEMUXER) += daud.c  
-AVFORMAT_C_FILES-$(CONFIG_DAUD_MUXER) += daud.c  
-AVFORMAT_C_FILES-$(CONFIG_DFA_DEMUXER) += dfa.c  
-AVFORMAT_C_FILES-$(CONFIG_DIRAC_DEMUXER) += diracdec.c rawdec.c  
-AVFORMAT_C_FILES-$(CONFIG_DIRAC_MUXER) += rawenc.c  
-AVFORMAT_C_FILES-$(CONFIG_DNXHD_DEMUXER) += dnxhddec.c rawdec.c  
-AVFORMAT_C_FILES-$(CONFIG_DNXHD_MUXER) += rawenc.c  
-AVFORMAT_C_FILES-$(CONFIG_DSICIN_DEMUXER) += dsicin.c  
-AVFORMAT_C_FILES-$(CONFIG_DTS_DEMUXER) += dtsdec.c rawdec.c  
-AVFORMAT_C_FILES-$(CONFIG_DTS_MUXER) += rawenc.c  
-AVFORMAT_C_FILES-$(CONFIG_DV_DEMUXER) += dv.c  
-AVFORMAT_C_FILES-$(CONFIG_DV_MUXER) += dvenc.c  
+AVFORMAT_C_FILES-$(CONFIG_CAF_MUXER) += cafenc.c caf.c riff.c isom.c
+AVFORMAT_C_FILES-$(CONFIG_CAVSVIDEO_DEMUXER) += cavsvideodec.c rawdec.c
+AVFORMAT_C_FILES-$(CONFIG_CAVSVIDEO_MUXER) += rawenc.c
+AVFORMAT_C_FILES-$(CONFIG_CDG_DEMUXER) += cdg.c
+AVFORMAT_C_FILES-$(CONFIG_CRC_MUXER) += crcenc.c
+AVFORMAT_C_FILES-$(CONFIG_DAUD_DEMUXER) += daud.c
+AVFORMAT_C_FILES-$(CONFIG_DAUD_MUXER) += daud.c
+AVFORMAT_C_FILES-$(CONFIG_DFA_DEMUXER) += dfa.c
+AVFORMAT_C_FILES-$(CONFIG_DIRAC_DEMUXER) += diracdec.c rawdec.c
+AVFORMAT_C_FILES-$(CONFIG_DIRAC_MUXER) += rawenc.c
+AVFORMAT_C_FILES-$(CONFIG_DNXHD_DEMUXER) += dnxhddec.c rawdec.c
+AVFORMAT_C_FILES-$(CONFIG_DNXHD_MUXER) += rawenc.c
+AVFORMAT_C_FILES-$(CONFIG_DSICIN_DEMUXER) += dsicin.c
+AVFORMAT_C_FILES-$(CONFIG_DTS_DEMUXER) += dtsdec.c rawdec.c
+AVFORMAT_C_FILES-$(CONFIG_DTS_MUXER) += rawenc.c
+AVFORMAT_C_FILES-$(CONFIG_DV_DEMUXER) += dv.c
+AVFORMAT_C_FILES-$(CONFIG_DV_MUXER) += dvenc.c
 AVFORMAT_C_FILES-$(CONFIG_DXA_DEMUXER)               += dxa.c
-AVFORMAT_C_FILES-$(CONFIG_EA_CDATA_DEMUXER) += eacdata.c  
-AVFORMAT_C_FILES-$(CONFIG_EA_DEMUXER) += electronicarts.c  
-AVFORMAT_C_FILES-$(CONFIG_EAC3_DEMUXER) += ac3dec.c rawdec.c  
-AVFORMAT_C_FILES-$(CONFIG_EAC3_MUXER) += rawenc.c  
-AVFORMAT_C_FILES-$(CONFIG_FFM_DEMUXER) += ffmdec.c  
-AVFORMAT_C_FILES-$(CONFIG_FFM_MUXER) += ffmenc.c  
-AVFORMAT_C_FILES-$(CONFIG_FFMETADATA_DEMUXER) += ffmetadec.c  
-AVFORMAT_C_FILES-$(CONFIG_FFMETADATA_MUXER) += ffmetaenc.c  
-AVFORMAT_C_FILES-$(CONFIG_FILMSTRIP_DEMUXER) += filmstripdec.c  
+AVFORMAT_C_FILES-$(CONFIG_EA_CDATA_DEMUXER) += eacdata.c
+AVFORMAT_C_FILES-$(CONFIG_EA_DEMUXER) += electronicarts.c
+AVFORMAT_C_FILES-$(CONFIG_EAC3_DEMUXER) += ac3dec.c rawdec.c
+AVFORMAT_C_FILES-$(CONFIG_EAC3_MUXER) += rawenc.c
+AVFORMAT_C_FILES-$(CONFIG_FFM_DEMUXER) += ffmdec.c
+AVFORMAT_C_FILES-$(CONFIG_FFM_MUXER) += ffmenc.c
+AVFORMAT_C_FILES-$(CONFIG_FFMETADATA_DEMUXER) += ffmetadec.c
+AVFORMAT_C_FILES-$(CONFIG_FFMETADATA_MUXER) += ffmetaenc.c
+AVFORMAT_C_FILES-$(CONFIG_FILMSTRIP_DEMUXER) += filmstripdec.c
 AVFORMAT_C_FILES-$(CONFIG_FILMSTRIP_MUXER) += filmstripenc.c  
 AVFORMAT_C_FILES-$(CONFIG_FLAC_DEMUXER) += flacdec.c rawdec.c \
     oggparsevorbis.c \
-    vorbiscomment.c  
+    vorbiscomment.c
 AVFORMAT_C_FILES-$(CONFIG_FLAC_MUXER) += flacenc.c flacenc_header.c \
-    vorbiscomment.c  
-AVFORMAT_C_FILES-$(CONFIG_FLIC_DEMUXER) += flic.c  
-AVFORMAT_C_FILES-$(CONFIG_FLV_DEMUXER) += flvdec.c  
-AVFORMAT_C_FILES-$(CONFIG_FLV_MUXER) += flvenc.c avc.c  
-AVFORMAT_C_FILES-$(CONFIG_FOURXM_DEMUXER) += 4xm.c  
-AVFORMAT_C_FILES-$(CONFIG_FRAMECRC_MUXER) += framecrcenc.c  
-AVFORMAT_C_FILES-$(CONFIG_FRAMEMD5_MUXER) += md5enc.c  
-AVFORMAT_C_FILES-$(CONFIG_GIF_MUXER) += gif.c  
+    vorbiscomment.c
+AVFORMAT_C_FILES-$(CONFIG_FLIC_DEMUXER) += flic.c
+AVFORMAT_C_FILES-$(CONFIG_FLV_DEMUXER) += flvdec.c
+AVFORMAT_C_FILES-$(CONFIG_FLV_MUXER) += flvenc.c avc.c
+AVFORMAT_C_FILES-$(CONFIG_FOURXM_DEMUXER) += 4xm.c
+AVFORMAT_C_FILES-$(CONFIG_FRAMECRC_MUXER) += framecrcenc.c
+AVFORMAT_C_FILES-$(CONFIG_FRAMEMD5_MUXER) += md5enc.c
+AVFORMAT_C_FILES-$(CONFIG_GIF_MUXER) += gif.c
 AVFORMAT_C_FILES-$(CONFIG_GSM_DEMUXER)               += gsmdec.c
-AVFORMAT_C_FILES-$(CONFIG_GXF_DEMUXER) += gxf.c  
-AVFORMAT_C_FILES-$(CONFIG_GXF_MUXER) += gxfenc.c audiointerleave.c  
-AVFORMAT_C_FILES-$(CONFIG_G722_DEMUXER) += rawdec.c  
-AVFORMAT_C_FILES-$(CONFIG_G722_MUXER) += rawenc.c  
+AVFORMAT_C_FILES-$(CONFIG_GXF_DEMUXER) += gxf.c
+AVFORMAT_C_FILES-$(CONFIG_GXF_MUXER) += gxfenc.c audiointerleave.c
+AVFORMAT_C_FILES-$(CONFIG_G722_DEMUXER) += rawdec.c
+AVFORMAT_C_FILES-$(CONFIG_G722_MUXER) += rawenc.c
 AVFORMAT_C_FILES-$(CONFIG_G723_1_DEMUXER)            += g723_1.c
 AVFORMAT_C_FILES-$(CONFIG_G723_1_MUXER)              += rawenc.c
 AVFORMAT_C_FILES-$(CONFIG_G729_DEMUXER)              += g729dec.c
-AVFORMAT_C_FILES-$(CONFIG_H261_DEMUXER) += h261dec.c rawdec.c  
-AVFORMAT_C_FILES-$(CONFIG_H261_MUXER) += rawenc.c  
-AVFORMAT_C_FILES-$(CONFIG_H263_DEMUXER) += h263dec.c rawdec.c  
-AVFORMAT_C_FILES-$(CONFIG_H263_MUXER) += rawenc.c  
-AVFORMAT_C_FILES-$(CONFIG_H264_DEMUXER) += h264dec.c rawdec.c  
+AVFORMAT_C_FILES-$(CONFIG_H261_DEMUXER) += h261dec.c rawdec.c
+AVFORMAT_C_FILES-$(CONFIG_H261_MUXER) += rawenc.c
+AVFORMAT_C_FILES-$(CONFIG_H263_DEMUXER) += h263dec.c rawdec.c
+AVFORMAT_C_FILES-$(CONFIG_H263_MUXER) += rawenc.c
+AVFORMAT_C_FILES-$(CONFIG_H264_DEMUXER) += h264dec.c rawdec.c
 AVFORMAT_C_FILES-$(CONFIG_H264_MUXER) += rawenc.c  
 AVFORMAT_C_FILES-$(CONFIG_ICO_DEMUXER)               += icodec.c
 AVFORMAT_C_FILES-$(CONFIG_IDCIN_DEMUXER) += idcin.c  
 AVFORMAT_C_FILES-$(CONFIG_IDF_DEMUXER)               += bintext.c
-AVFORMAT_C_FILES-$(CONFIG_IFF_DEMUXER) += iff.c  
-AVFORMAT_C_FILES-$(CONFIG_IMAGE2_DEMUXER) += img2.c  
-AVFORMAT_C_FILES-$(CONFIG_IMAGE2_MUXER) += img2.c  
-AVFORMAT_C_FILES-$(CONFIG_IMAGE2PIPE_DEMUXER) += img2.c  
-AVFORMAT_C_FILES-$(CONFIG_IMAGE2PIPE_MUXER) += img2.c  
-AVFORMAT_C_FILES-$(CONFIG_INGENIENT_DEMUXER) += ingenientdec.c rawdec.c  
-AVFORMAT_C_FILES-$(CONFIG_IPMOVIE_DEMUXER) += ipmovie.c  
-AVFORMAT_C_FILES-$(CONFIG_ISS_DEMUXER) += iss.c  
-AVFORMAT_C_FILES-$(CONFIG_IV8_DEMUXER) += iv8.c  
+AVFORMAT_C_FILES-$(CONFIG_IFF_DEMUXER) += iff.c
+AVFORMAT_C_FILES-$(CONFIG_IMAGE2_DEMUXER) += img2.c
+AVFORMAT_C_FILES-$(CONFIG_IMAGE2_MUXER) += img2.c
+AVFORMAT_C_FILES-$(CONFIG_IMAGE2PIPE_DEMUXER) += img2.c
+AVFORMAT_C_FILES-$(CONFIG_IMAGE2PIPE_MUXER) += img2.c
+AVFORMAT_C_FILES-$(CONFIG_INGENIENT_DEMUXER) += ingenientdec.c rawdec.c
+AVFORMAT_C_FILES-$(CONFIG_IPMOVIE_DEMUXER) += ipmovie.c
+AVFORMAT_C_FILES-$(CONFIG_ISS_DEMUXER) += iss.c
+AVFORMAT_C_FILES-$(CONFIG_IV8_DEMUXER) += iv8.c
 AVFORMAT_C_FILES-$(CONFIG_IVF_DEMUXER)               += ivfdec.c
-AVFORMAT_C_FILES-$(CONFIG_IVF_MUXER) += ivfenc.c  
-AVFORMAT_C_FILES-$(CONFIG_JV_DEMUXER) += jvdec.c  
+AVFORMAT_C_FILES-$(CONFIG_IVF_MUXER) += ivfenc.c
+AVFORMAT_C_FILES-$(CONFIG_JV_DEMUXER) += jvdec.c
 AVFORMAT_C_FILES-$(CONFIG_LATM_DEMUXER)              += rawdec.c
 AVFORMAT_C_FILES-$(CONFIG_LATM_MUXER)                += latmenc.c
-AVFORMAT_C_FILES-$(CONFIG_LMLM4_DEMUXER) += lmlm4.c  
+AVFORMAT_C_FILES-$(CONFIG_LMLM4_DEMUXER) += lmlm4.c
 AVFORMAT_C_FILES-$(CONFIG_LOAS_DEMUXER)              += loasdec.c
-AVFORMAT_C_FILES-$(CONFIG_LXF_DEMUXER) += lxfdec.c  
-AVFORMAT_C_FILES-$(CONFIG_M4V_DEMUXER) += m4vdec.c rawdec.c  
-AVFORMAT_C_FILES-$(CONFIG_M4V_MUXER) += rawenc.c  
+AVFORMAT_C_FILES-$(CONFIG_LXF_DEMUXER) += lxfdec.c
+AVFORMAT_C_FILES-$(CONFIG_M4V_DEMUXER) += m4vdec.c rawdec.c
+AVFORMAT_C_FILES-$(CONFIG_M4V_MUXER) += rawenc.c
 AVFORMAT_C_FILES-$(CONFIG_MATROSKA_DEMUXER) += matroskadec.c matroska.c \
                                             isom.c rmdec.c rm.c
 AVFORMAT_C_FILES-$(CONFIG_MATROSKA_MUXER) += matroskaenc.c matroska.c \
                                             isom.c avc.c \
-    flacenc_header.c avlanguage.c  
-AVFORMAT_C_FILES-$(CONFIG_MD5_MUXER) += md5enc.c  
-AVFORMAT_C_FILES-$(CONFIG_MICRODVD_DEMUXER) += microdvddec.c  
-AVFORMAT_C_FILES-$(CONFIG_MICRODVD_MUXER) += microdvdenc.c rawenc.c  
-AVFORMAT_C_FILES-$(CONFIG_MJPEG_DEMUXER) += rawdec.c  
-AVFORMAT_C_FILES-$(CONFIG_MJPEG_MUXER) += rawenc.c  
-AVFORMAT_C_FILES-$(CONFIG_MLP_DEMUXER) += rawdec.c  
-AVFORMAT_C_FILES-$(CONFIG_MLP_MUXER) += rawenc.c  
-AVFORMAT_C_FILES-$(CONFIG_MM_DEMUXER) += mm.c  
-AVFORMAT_C_FILES-$(CONFIG_MMF_DEMUXER) += mmf.c pcm.c  
+    flacenc_header.c avlanguage.c
+AVFORMAT_C_FILES-$(CONFIG_MD5_MUXER) += md5enc.c
+AVFORMAT_C_FILES-$(CONFIG_MICRODVD_DEMUXER) += microdvddec.c
+AVFORMAT_C_FILES-$(CONFIG_MICRODVD_MUXER) += microdvdenc.c rawenc.c
+AVFORMAT_C_FILES-$(CONFIG_MJPEG_DEMUXER) += rawdec.c
+AVFORMAT_C_FILES-$(CONFIG_MJPEG_MUXER) += rawenc.c
+AVFORMAT_C_FILES-$(CONFIG_MLP_DEMUXER) += rawdec.c
+AVFORMAT_C_FILES-$(CONFIG_MLP_MUXER) += rawenc.c
+AVFORMAT_C_FILES-$(CONFIG_MM_DEMUXER) += mm.c
+AVFORMAT_C_FILES-$(CONFIG_MMF_DEMUXER) += mmf.c pcm.c
 AVFORMAT_C_FILES-$(CONFIG_MMF_MUXER)                 += mmf.c
 AVFORMAT_C_FILES-$(CONFIG_MOV_DEMUXER)               += mov.c isom.c mov_chan.c
 AVFORMAT_C_FILES-$(CONFIG_MOV_MUXER)                 += movenc.c isom.c avc.c \
                                             movenchint.c rtpenc_chain.c \
                                             mov_chan.c
-AVFORMAT_C_FILES-$(CONFIG_MP2_MUXER) += mp3enc.c rawenc.c  
-AVFORMAT_C_FILES-$(CONFIG_MP3_DEMUXER) += mp3dec.c  
+AVFORMAT_C_FILES-$(CONFIG_MP2_MUXER) += mp3enc.c rawenc.c
+AVFORMAT_C_FILES-$(CONFIG_MP3_DEMUXER) += mp3dec.c
 AVFORMAT_C_FILES-$(CONFIG_MP3_MUXER)                 += mp3enc.c rawenc.c id3v2enc.c
-AVFORMAT_C_FILES-$(CONFIG_MPC_DEMUXER) += mpc.c apetag.c  
-AVFORMAT_C_FILES-$(CONFIG_MPC8_DEMUXER) += mpc8.c  
-AVFORMAT_C_FILES-$(CONFIG_MPEG1SYSTEM_MUXER) += mpegenc.c  
-AVFORMAT_C_FILES-$(CONFIG_MPEG1VCD_MUXER) += mpegenc.c  
-AVFORMAT_C_FILES-$(CONFIG_MPEG2DVD_MUXER) += mpegenc.c  
-AVFORMAT_C_FILES-$(CONFIG_MPEG2VOB_MUXER) += mpegenc.c  
-AVFORMAT_C_FILES-$(CONFIG_MPEG2SVCD_MUXER) += mpegenc.c  
-AVFORMAT_C_FILES-$(CONFIG_MPEG1VIDEO_MUXER) += rawenc.c  
-AVFORMAT_C_FILES-$(CONFIG_MPEG2VIDEO_MUXER) += rawenc.c  
-AVFORMAT_C_FILES-$(CONFIG_MPEGPS_DEMUXER) += mpeg.c  
-AVFORMAT_C_FILES-$(CONFIG_MPEGTS_DEMUXER) += mpegts.c isom.c  
-AVFORMAT_C_FILES-$(CONFIG_MPEGTS_MUXER) += mpegtsenc.c adtsenc.c  
-AVFORMAT_C_FILES-$(CONFIG_MPEGVIDEO_DEMUXER) += mpegvideodec.c rawdec.c  
-AVFORMAT_C_FILES-$(CONFIG_MPJPEG_MUXER) += mpjpeg.c  
-AVFORMAT_C_FILES-$(CONFIG_MSNWC_TCP_DEMUXER) += msnwc_tcp.c  
-AVFORMAT_C_FILES-$(CONFIG_MTV_DEMUXER) += mtv.c  
-AVFORMAT_C_FILES-$(CONFIG_MVI_DEMUXER) += mvi.c  
-AVFORMAT_C_FILES-$(CONFIG_MXF_DEMUXER) += mxfdec.c mxf.c  
-AVFORMAT_C_FILES-$(CONFIG_MXF_MUXER) += mxfenc.c mxf.c audiointerleave.c  
-AVFORMAT_C_FILES-$(CONFIG_MXG_DEMUXER) += mxg.c  
-AVFORMAT_C_FILES-$(CONFIG_NC_DEMUXER) += ncdec.c  
-AVFORMAT_C_FILES-$(CONFIG_NSV_DEMUXER) += nsvdec.c  
-AVFORMAT_C_FILES-$(CONFIG_NULL_MUXER) += nullenc.c  
+AVFORMAT_C_FILES-$(CONFIG_MPC_DEMUXER) += mpc.c apetag.c
+AVFORMAT_C_FILES-$(CONFIG_MPC8_DEMUXER) += mpc8.c
+AVFORMAT_C_FILES-$(CONFIG_MPEG1SYSTEM_MUXER) += mpegenc.c
+AVFORMAT_C_FILES-$(CONFIG_MPEG1VCD_MUXER) += mpegenc.c
+AVFORMAT_C_FILES-$(CONFIG_MPEG2DVD_MUXER) += mpegenc.c
+AVFORMAT_C_FILES-$(CONFIG_MPEG2VOB_MUXER) += mpegenc.c
+AVFORMAT_C_FILES-$(CONFIG_MPEG2SVCD_MUXER) += mpegenc.c
+AVFORMAT_C_FILES-$(CONFIG_MPEG1VIDEO_MUXER) += rawenc.c
+AVFORMAT_C_FILES-$(CONFIG_MPEG2VIDEO_MUXER) += rawenc.c
+AVFORMAT_C_FILES-$(CONFIG_MPEGPS_DEMUXER) += mpeg.c
+AVFORMAT_C_FILES-$(CONFIG_MPEGTS_DEMUXER) += mpegts.c isom.c
+AVFORMAT_C_FILES-$(CONFIG_MPEGTS_MUXER) += mpegtsenc.c adtsenc.c
+AVFORMAT_C_FILES-$(CONFIG_MPEGVIDEO_DEMUXER) += mpegvideodec.c rawdec.c
+AVFORMAT_C_FILES-$(CONFIG_MPJPEG_MUXER) += mpjpeg.c
+AVFORMAT_C_FILES-$(CONFIG_MSNWC_TCP_DEMUXER) += msnwc_tcp.c
+AVFORMAT_C_FILES-$(CONFIG_MTV_DEMUXER) += mtv.c
+AVFORMAT_C_FILES-$(CONFIG_MVI_DEMUXER) += mvi.c
+AVFORMAT_C_FILES-$(CONFIG_MXF_DEMUXER) += mxfdec.c mxf.c
+AVFORMAT_C_FILES-$(CONFIG_MXF_MUXER) += mxfenc.c mxf.c audiointerleave.c
+AVFORMAT_C_FILES-$(CONFIG_MXG_DEMUXER) += mxg.c
+AVFORMAT_C_FILES-$(CONFIG_NC_DEMUXER) += ncdec.c
+AVFORMAT_C_FILES-$(CONFIG_NSV_DEMUXER) += nsvdec.c
+AVFORMAT_C_FILES-$(CONFIG_NULL_MUXER) += nullenc.c
 AVFORMAT_C_FILES-$(CONFIG_NUT_DEMUXER)               += nutdec.c nut.c
 AVFORMAT_C_FILES-$(CONFIG_NUT_MUXER)                 += nutenc.c nut.c
 AVFORMAT_C_FILES-$(CONFIG_NUV_DEMUXER)               += nuv.c
@@ -1054,65 +1053,65 @@ AVFORMAT_C_FILES-$(CONFIG_OGG_DEMUXER) += oggdec.c \
     oggparsespeex.c \
     oggparsetheora.c \
     oggparsevorbis.c \
-    vorbiscomment.c  
+    vorbiscomment.c
 AVFORMAT_C_FILES-$(CONFIG_OGG_MUXER) += oggenc.c \
-    vorbiscomment.c  
+    vorbiscomment.c
 AVFORMAT_C_FILES-$(CONFIG_OMA_DEMUXER)               += omadec.c pcm.c oma.c
 AVFORMAT_C_FILES-$(CONFIG_OMA_MUXER)                 += omaenc.c rawenc.c oma.c id3v2enc.c
-AVFORMAT_C_FILES-$(CONFIG_PCM_ALAW_DEMUXER) += pcmdec.c pcm.c rawdec.c  
-AVFORMAT_C_FILES-$(CONFIG_PCM_ALAW_MUXER) += pcmenc.c rawenc.c  
-AVFORMAT_C_FILES-$(CONFIG_PCM_F32BE_DEMUXER) += pcmdec.c pcm.c rawdec.c  
-AVFORMAT_C_FILES-$(CONFIG_PCM_F32BE_MUXER) += pcmenc.c rawenc.c  
-AVFORMAT_C_FILES-$(CONFIG_PCM_F32LE_DEMUXER) += pcmdec.c pcm.c rawdec.c  
-AVFORMAT_C_FILES-$(CONFIG_PCM_F32LE_MUXER) += pcmenc.c rawenc.c  
-AVFORMAT_C_FILES-$(CONFIG_PCM_F64BE_DEMUXER) += pcmdec.c pcm.c rawdec.c  
-AVFORMAT_C_FILES-$(CONFIG_PCM_F64BE_MUXER) += pcmenc.c rawenc.c  
-AVFORMAT_C_FILES-$(CONFIG_PCM_F64LE_DEMUXER) += pcmdec.c pcm.c rawdec.c  
-AVFORMAT_C_FILES-$(CONFIG_PCM_F64LE_MUXER) += pcmenc.c rawenc.c  
-AVFORMAT_C_FILES-$(CONFIG_PCM_MULAW_DEMUXER) += pcmdec.c pcm.c rawdec.c  
-AVFORMAT_C_FILES-$(CONFIG_PCM_MULAW_MUXER) += pcmenc.c rawenc.c  
-AVFORMAT_C_FILES-$(CONFIG_PCM_S16BE_DEMUXER) += pcmdec.c pcm.c rawdec.c  
-AVFORMAT_C_FILES-$(CONFIG_PCM_S16BE_MUXER) += pcmenc.c rawenc.c  
-AVFORMAT_C_FILES-$(CONFIG_PCM_S16LE_DEMUXER) += pcmdec.c pcm.c rawdec.c  
-AVFORMAT_C_FILES-$(CONFIG_PCM_S16LE_MUXER) += pcmenc.c rawenc.c  
-AVFORMAT_C_FILES-$(CONFIG_PCM_S24BE_DEMUXER) += pcmdec.c pcm.c rawdec.c  
-AVFORMAT_C_FILES-$(CONFIG_PCM_S24BE_MUXER) += pcmenc.c rawenc.c  
-AVFORMAT_C_FILES-$(CONFIG_PCM_S24LE_DEMUXER) += pcmdec.c pcm.c rawdec.c  
-AVFORMAT_C_FILES-$(CONFIG_PCM_S24LE_MUXER) += pcmenc.c rawenc.c  
-AVFORMAT_C_FILES-$(CONFIG_PCM_S32BE_DEMUXER) += pcmdec.c pcm.c rawdec.c  
-AVFORMAT_C_FILES-$(CONFIG_PCM_S32BE_MUXER) += pcmenc.c rawenc.c  
-AVFORMAT_C_FILES-$(CONFIG_PCM_S32LE_DEMUXER) += pcmdec.c pcm.c rawdec.c  
-AVFORMAT_C_FILES-$(CONFIG_PCM_S32LE_MUXER) += pcmenc.c rawenc.c  
+AVFORMAT_C_FILES-$(CONFIG_PCM_ALAW_DEMUXER) += pcmdec.c pcm.c rawdec.c
+AVFORMAT_C_FILES-$(CONFIG_PCM_ALAW_MUXER) += pcmenc.c rawenc.c
+AVFORMAT_C_FILES-$(CONFIG_PCM_F32BE_DEMUXER) += pcmdec.c pcm.c rawdec.c
+AVFORMAT_C_FILES-$(CONFIG_PCM_F32BE_MUXER) += pcmenc.c rawenc.c
+AVFORMAT_C_FILES-$(CONFIG_PCM_F32LE_DEMUXER) += pcmdec.c pcm.c rawdec.c
+AVFORMAT_C_FILES-$(CONFIG_PCM_F32LE_MUXER) += pcmenc.c rawenc.c
+AVFORMAT_C_FILES-$(CONFIG_PCM_F64BE_DEMUXER) += pcmdec.c pcm.c rawdec.c
+AVFORMAT_C_FILES-$(CONFIG_PCM_F64BE_MUXER) += pcmenc.c rawenc.c
+AVFORMAT_C_FILES-$(CONFIG_PCM_F64LE_DEMUXER) += pcmdec.c pcm.c rawdec.c
+AVFORMAT_C_FILES-$(CONFIG_PCM_F64LE_MUXER) += pcmenc.c rawenc.c
+AVFORMAT_C_FILES-$(CONFIG_PCM_MULAW_DEMUXER) += pcmdec.c pcm.c rawdec.c
+AVFORMAT_C_FILES-$(CONFIG_PCM_MULAW_MUXER) += pcmenc.c rawenc.c
+AVFORMAT_C_FILES-$(CONFIG_PCM_S16BE_DEMUXER) += pcmdec.c pcm.c rawdec.c
+AVFORMAT_C_FILES-$(CONFIG_PCM_S16BE_MUXER) += pcmenc.c rawenc.c
+AVFORMAT_C_FILES-$(CONFIG_PCM_S16LE_DEMUXER) += pcmdec.c pcm.c rawdec.c
+AVFORMAT_C_FILES-$(CONFIG_PCM_S16LE_MUXER) += pcmenc.c rawenc.c
+AVFORMAT_C_FILES-$(CONFIG_PCM_S24BE_DEMUXER) += pcmdec.c pcm.c rawdec.c
+AVFORMAT_C_FILES-$(CONFIG_PCM_S24BE_MUXER) += pcmenc.c rawenc.c
+AVFORMAT_C_FILES-$(CONFIG_PCM_S24LE_DEMUXER) += pcmdec.c pcm.c rawdec.c
+AVFORMAT_C_FILES-$(CONFIG_PCM_S24LE_MUXER) += pcmenc.c rawenc.c
+AVFORMAT_C_FILES-$(CONFIG_PCM_S32BE_DEMUXER) += pcmdec.c pcm.c rawdec.c
+AVFORMAT_C_FILES-$(CONFIG_PCM_S32BE_MUXER) += pcmenc.c rawenc.c
+AVFORMAT_C_FILES-$(CONFIG_PCM_S32LE_DEMUXER) += pcmdec.c pcm.c rawdec.c
+AVFORMAT_C_FILES-$(CONFIG_PCM_S32LE_MUXER) += pcmenc.c rawenc.c
 AVFORMAT_C_FILES-$(CONFIG_PCM_S8_DEMUXER) += pcmdec.c pcm.c rawdec.c  
-AVFORMAT_C_FILES-$(CONFIG_PCM_S8_MUXER) += pcmenc.c rawenc.c  
-AVFORMAT_C_FILES-$(CONFIG_PCM_U16BE_DEMUXER) += pcmdec.c pcm.c rawdec.c  
-AVFORMAT_C_FILES-$(CONFIG_PCM_U16BE_MUXER) += pcmenc.c rawenc.c  
-AVFORMAT_C_FILES-$(CONFIG_PCM_U16LE_DEMUXER) += pcmdec.c pcm.c rawdec.c  
-AVFORMAT_C_FILES-$(CONFIG_PCM_U16LE_MUXER) += pcmenc.c rawenc.c  
-AVFORMAT_C_FILES-$(CONFIG_PCM_U24BE_DEMUXER) += pcmdec.c pcm.c rawdec.c  
-AVFORMAT_C_FILES-$(CONFIG_PCM_U24BE_MUXER) += pcmenc.c rawenc.c  
-AVFORMAT_C_FILES-$(CONFIG_PCM_U24LE_DEMUXER) += pcmdec.c pcm.c rawdec.c  
-AVFORMAT_C_FILES-$(CONFIG_PCM_U24LE_MUXER) += pcmenc.c rawenc.c  
-AVFORMAT_C_FILES-$(CONFIG_PCM_U32BE_DEMUXER) += pcmdec.c pcm.c rawdec.c  
-AVFORMAT_C_FILES-$(CONFIG_PCM_U32BE_MUXER) += pcmenc.c rawenc.c  
-AVFORMAT_C_FILES-$(CONFIG_PCM_U32LE_DEMUXER) += pcmdec.c pcm.c rawdec.c  
-AVFORMAT_C_FILES-$(CONFIG_PCM_U32LE_MUXER) += pcmenc.c rawenc.c  
+AVFORMAT_C_FILES-$(CONFIG_PCM_S8_MUXER) += pcmenc.c rawenc.c
+AVFORMAT_C_FILES-$(CONFIG_PCM_U16BE_DEMUXER) += pcmdec.c pcm.c rawdec.c
+AVFORMAT_C_FILES-$(CONFIG_PCM_U16BE_MUXER) += pcmenc.c rawenc.c
+AVFORMAT_C_FILES-$(CONFIG_PCM_U16LE_DEMUXER) += pcmdec.c pcm.c rawdec.c
+AVFORMAT_C_FILES-$(CONFIG_PCM_U16LE_MUXER) += pcmenc.c rawenc.c
+AVFORMAT_C_FILES-$(CONFIG_PCM_U24BE_DEMUXER) += pcmdec.c pcm.c rawdec.c
+AVFORMAT_C_FILES-$(CONFIG_PCM_U24BE_MUXER) += pcmenc.c rawenc.c
+AVFORMAT_C_FILES-$(CONFIG_PCM_U24LE_DEMUXER) += pcmdec.c pcm.c rawdec.c
+AVFORMAT_C_FILES-$(CONFIG_PCM_U24LE_MUXER) += pcmenc.c rawenc.c
+AVFORMAT_C_FILES-$(CONFIG_PCM_U32BE_DEMUXER) += pcmdec.c pcm.c rawdec.c
+AVFORMAT_C_FILES-$(CONFIG_PCM_U32BE_MUXER) += pcmenc.c rawenc.c
+AVFORMAT_C_FILES-$(CONFIG_PCM_U32LE_DEMUXER) += pcmdec.c pcm.c rawdec.c
+AVFORMAT_C_FILES-$(CONFIG_PCM_U32LE_MUXER) += pcmenc.c rawenc.c
 AVFORMAT_C_FILES-$(CONFIG_PCM_U8_DEMUXER) += pcmdec.c pcm.c rawdec.c  
-AVFORMAT_C_FILES-$(CONFIG_PCM_U8_MUXER) += pcmenc.c rawenc.c  
-AVFORMAT_C_FILES-$(CONFIG_PMP_DEMUXER) += pmpdec.c  
-AVFORMAT_C_FILES-$(CONFIG_PVA_DEMUXER) += pva.c  
-AVFORMAT_C_FILES-$(CONFIG_QCP_DEMUXER) += qcp.c  
-AVFORMAT_C_FILES-$(CONFIG_R3D_DEMUXER) += r3d.c  
-AVFORMAT_C_FILES-$(CONFIG_RAWVIDEO_DEMUXER) += rawvideodec.c rawdec.c  
-AVFORMAT_C_FILES-$(CONFIG_RAWVIDEO_MUXER) += rawenc.c  
-AVFORMAT_C_FILES-$(CONFIG_RL2_DEMUXER) += rl2.c  
-AVFORMAT_C_FILES-$(CONFIG_RM_DEMUXER) += rmdec.c rm.c  
-AVFORMAT_C_FILES-$(CONFIG_RM_MUXER) += rmenc.c rm.c  
-AVFORMAT_C_FILES-$(CONFIG_ROQ_DEMUXER) += idroqdec.c  
-AVFORMAT_C_FILES-$(CONFIG_ROQ_MUXER) += idroqenc.c rawenc.c  
-AVFORMAT_C_FILES-$(CONFIG_RSO_DEMUXER) += rsodec.c rso.c pcm.c  
-AVFORMAT_C_FILES-$(CONFIG_RSO_MUXER) += rsoenc.c rso.c  
-AVFORMAT_C_FILES-$(CONFIG_RPL_DEMUXER) += rpl.c  
+AVFORMAT_C_FILES-$(CONFIG_PCM_U8_MUXER) += pcmenc.c rawenc.c
+AVFORMAT_C_FILES-$(CONFIG_PMP_DEMUXER) += pmpdec.c
+AVFORMAT_C_FILES-$(CONFIG_PVA_DEMUXER) += pva.c
+AVFORMAT_C_FILES-$(CONFIG_QCP_DEMUXER) += qcp.c
+AVFORMAT_C_FILES-$(CONFIG_R3D_DEMUXER) += r3d.c
+AVFORMAT_C_FILES-$(CONFIG_RAWVIDEO_DEMUXER) += rawvideodec.c rawdec.c
+AVFORMAT_C_FILES-$(CONFIG_RAWVIDEO_MUXER) += rawenc.c
+AVFORMAT_C_FILES-$(CONFIG_RL2_DEMUXER) += rl2.c
+AVFORMAT_C_FILES-$(CONFIG_RM_DEMUXER) += rmdec.c rm.c
+AVFORMAT_C_FILES-$(CONFIG_RM_MUXER) += rmenc.c rm.c
+AVFORMAT_C_FILES-$(CONFIG_ROQ_DEMUXER) += idroqdec.c
+AVFORMAT_C_FILES-$(CONFIG_ROQ_MUXER) += idroqenc.c rawenc.c
+AVFORMAT_C_FILES-$(CONFIG_RSO_DEMUXER) += rsodec.c rso.c pcm.c
+AVFORMAT_C_FILES-$(CONFIG_RSO_MUXER) += rsoenc.c rso.c
+AVFORMAT_C_FILES-$(CONFIG_RPL_DEMUXER) += rpl.c
 AVFORMAT_C_FILES-$(CONFIG_RTP_MUXER) += rtp.c \
     rtpenc_aac.c \
     rtpenc_latm.c \
@@ -1123,13 +1122,13 @@ AVFORMAT_C_FILES-$(CONFIG_RTP_MUXER) += rtp.c \
     rtpenc_h264.c \
     rtpenc_vp8.c \
     rtpenc_xiph.c \
-    avc.c  
+    avc.c
 AVFORMAT_C_FILES-$(CONFIG_RTPDEC) += rdt.c \
     rtp.c \
     rtpdec.c \
     rtpdec_amr.c \
     rtpdec_asf.c \
-                                            rtpdec_g726.c \
+    rtpdec_g726.c \
     rtpdec_h263.c \
     rtpdec_h264.c \
     rtpdec_latm.c \
@@ -1139,112 +1138,111 @@ AVFORMAT_C_FILES-$(CONFIG_RTPDEC) += rdt.c \
     rtpdec_qt.c \
     rtpdec_svq3.c \
     rtpdec_vp8.c \
-    rtpdec_xiph.c  
-AVFORMAT_C_FILES-$(CONFIG_RTSP_DEMUXER) += rtsp.c rtspdec.c httpauth.c  
+    rtpdec_xiph.c
+AVFORMAT_C_FILES-$(CONFIG_RTSP_DEMUXER) += rtsp.c rtspdec.c httpauth.c
 AVFORMAT_C_FILES-$(CONFIG_RTSP_MUXER) += rtsp.c rtspenc.c httpauth.c \
-    rtpenc_chain.c  
-AVFORMAT_C_FILES-$(CONFIG_SAP_DEMUXER) += sapdec.c  
-AVFORMAT_C_FILES-$(CONFIG_SAP_MUXER) += sapenc.c rtpenc_chain.c  
+    rtpenc_chain.c
+AVFORMAT_C_FILES-$(CONFIG_SAP_DEMUXER) += sapdec.c
+AVFORMAT_C_FILES-$(CONFIG_SAP_MUXER) += sapenc.c rtpenc_chain.c
 AVFORMAT_C_FILES-$(CONFIG_SBG_DEMUXER)               += sbgdec.c
-AVFORMAT_C_FILES-$(CONFIG_SDP_DEMUXER) += rtsp.c  
-AVFORMAT_C_FILES-$(CONFIG_SEGAFILM_DEMUXER) += segafilm.c  
+AVFORMAT_C_FILES-$(CONFIG_SDP_DEMUXER) += rtsp.c
+AVFORMAT_C_FILES-$(CONFIG_SEGAFILM_DEMUXER) += segafilm.c
 AVFORMAT_C_FILES-$(CONFIG_SEGMENT_MUXER)             += segment.c
-AVFORMAT_C_FILES-$(CONFIG_SHORTEN_DEMUXER) += rawdec.c  
-AVFORMAT_C_FILES-$(CONFIG_SIFF_DEMUXER) += siff.c  
-AVFORMAT_C_FILES-$(CONFIG_SMACKER_DEMUXER) += smacker.c  
+AVFORMAT_C_FILES-$(CONFIG_SHORTEN_DEMUXER) += rawdec.c
+AVFORMAT_C_FILES-$(CONFIG_SIFF_DEMUXER) += siff.c
+AVFORMAT_C_FILES-$(CONFIG_SMACKER_DEMUXER) += smacker.c
 AVFORMAT_C_FILES-$(CONFIG_SMJPEG_DEMUXER)            += smjpegdec.c smjpeg.c
 AVFORMAT_C_FILES-$(CONFIG_SMJPEG_MUXER)              += smjpegenc.c smjpeg.c
-AVFORMAT_C_FILES-$(CONFIG_SOL_DEMUXER) += sol.c pcm.c  
-AVFORMAT_C_FILES-$(CONFIG_SOX_DEMUXER) += soxdec.c pcm.c  
-AVFORMAT_C_FILES-$(CONFIG_SOX_MUXER) += soxenc.c  
-AVFORMAT_C_FILES-$(CONFIG_SPDIF_DEMUXER) += spdif.c spdifdec.c  
-AVFORMAT_C_FILES-$(CONFIG_SPDIF_MUXER) += spdif.c spdifenc.c  
-AVFORMAT_C_FILES-$(CONFIG_SRT_DEMUXER) += srtdec.c  
-AVFORMAT_C_FILES-$(CONFIG_SRT_MUXER) += rawenc.c  
-AVFORMAT_C_FILES-$(CONFIG_STR_DEMUXER) += psxstr.c  
-AVFORMAT_C_FILES-$(CONFIG_SWF_DEMUXER) += swfdec.c  
-AVFORMAT_C_FILES-$(CONFIG_SWF_MUXER) += swfenc.c  
-AVFORMAT_C_FILES-$(CONFIG_THP_DEMUXER) += thp.c  
-AVFORMAT_C_FILES-$(CONFIG_TIERTEXSEQ_DEMUXER) += tiertexseq.c  
+AVFORMAT_C_FILES-$(CONFIG_SOL_DEMUXER) += sol.c pcm.c
+AVFORMAT_C_FILES-$(CONFIG_SOX_DEMUXER) += soxdec.c pcm.c
+AVFORMAT_C_FILES-$(CONFIG_SOX_MUXER) += soxenc.c
+AVFORMAT_C_FILES-$(CONFIG_SPDIF_DEMUXER) += spdif.c spdifdec.c
+AVFORMAT_C_FILES-$(CONFIG_SPDIF_MUXER) += spdif.c spdifenc.c
+AVFORMAT_C_FILES-$(CONFIG_SRT_DEMUXER) += srtdec.c
+AVFORMAT_C_FILES-$(CONFIG_SRT_MUXER) += rawenc.c
+AVFORMAT_C_FILES-$(CONFIG_STR_DEMUXER) += psxstr.c
+AVFORMAT_C_FILES-$(CONFIG_SWF_DEMUXER) += swfdec.c
+AVFORMAT_C_FILES-$(CONFIG_SWF_MUXER) += swfenc.c
+AVFORMAT_C_FILES-$(CONFIG_THP_DEMUXER) += thp.c
+AVFORMAT_C_FILES-$(CONFIG_TIERTEXSEQ_DEMUXER) += tiertexseq.c
 AVFORMAT_C_FILES-$(CONFIG_MKVTIMESTAMP_V2_MUXER)     += mkvtimestamp_v2.c
-AVFORMAT_C_FILES-$(CONFIG_TMV_DEMUXER) += tmv.c  
-AVFORMAT_C_FILES-$(CONFIG_TRUEHD_DEMUXER) += rawdec.c  
-AVFORMAT_C_FILES-$(CONFIG_TRUEHD_MUXER) += rawenc.c  
-AVFORMAT_C_FILES-$(CONFIG_TTA_DEMUXER) += tta.c  
-AVFORMAT_C_FILES-$(CONFIG_TTY_DEMUXER) += tty.c sauce.c  
-AVFORMAT_C_FILES-$(CONFIG_TXD_DEMUXER) += txd.c  
-AVFORMAT_C_FILES-$(CONFIG_VC1_DEMUXER) += rawdec.c  
-AVFORMAT_C_FILES-$(CONFIG_VC1T_DEMUXER) += vc1test.c  
-AVFORMAT_C_FILES-$(CONFIG_VC1T_MUXER) += vc1testenc.c  
-AVFORMAT_C_FILES-$(CONFIG_VMD_DEMUXER) += sierravmd.c  
-AVFORMAT_C_FILES-$(CONFIG_VOC_DEMUXER) += vocdec.c voc.c  
-AVFORMAT_C_FILES-$(CONFIG_VOC_MUXER) += vocenc.c voc.c  
-AVFORMAT_C_FILES-$(CONFIG_VQF_DEMUXER) += vqf.c  
+AVFORMAT_C_FILES-$(CONFIG_TMV_DEMUXER) += tmv.c
+AVFORMAT_C_FILES-$(CONFIG_TRUEHD_DEMUXER) += rawdec.c
+AVFORMAT_C_FILES-$(CONFIG_TRUEHD_MUXER) += rawenc.c
+AVFORMAT_C_FILES-$(CONFIG_TTA_DEMUXER) += tta.c
+AVFORMAT_C_FILES-$(CONFIG_TTY_DEMUXER) += tty.c sauce.c
+AVFORMAT_C_FILES-$(CONFIG_TXD_DEMUXER) += txd.c
+AVFORMAT_C_FILES-$(CONFIG_VC1_DEMUXER) += rawdec.c
+AVFORMAT_C_FILES-$(CONFIG_VC1T_DEMUXER) += vc1test.c
+AVFORMAT_C_FILES-$(CONFIG_VC1T_MUXER) += vc1testenc.c
+AVFORMAT_C_FILES-$(CONFIG_VMD_DEMUXER) += sierravmd.c
+AVFORMAT_C_FILES-$(CONFIG_VOC_DEMUXER) += vocdec.c voc.c
+AVFORMAT_C_FILES-$(CONFIG_VOC_MUXER) += vocenc.c voc.c
+AVFORMAT_C_FILES-$(CONFIG_VQF_DEMUXER) += vqf.c
 AVFORMAT_C_FILES-$(CONFIG_W64_DEMUXER)               += wav.c pcm.c
 AVFORMAT_C_FILES-$(CONFIG_WAV_DEMUXER)               += wav.c pcm.c
 AVFORMAT_C_FILES-$(CONFIG_WAV_MUXER)                 += wav.c
-AVFORMAT_C_FILES-$(CONFIG_WC3_DEMUXER) += wc3movie.c  
+AVFORMAT_C_FILES-$(CONFIG_WC3_DEMUXER) += wc3movie.c
 AVFORMAT_C_FILES-$(CONFIG_WEBM_MUXER) += matroskaenc.c matroska.c \
                                             isom.c avc.c \
-    flacenc_header.c avlanguage.c  
+    flacenc_header.c avlanguage.c
 AVFORMAT_C_FILES-$(CONFIG_WSAUD_DEMUXER)             += westwood_aud.c
 AVFORMAT_C_FILES-$(CONFIG_WSVQA_DEMUXER)             += westwood_vqa.c
 AVFORMAT_C_FILES-$(CONFIG_WTV_DEMUXER) += wtvdec.c wtv.c asfdec.c asf.c asfcrypt.c \
                                             avlanguage.c mpegts.c isom.c
 AVFORMAT_C_FILES-$(CONFIG_WTV_MUXER)                 += wtvenc.c wtv.c asf.c asfenc.c
-AVFORMAT_C_FILES-$(CONFIG_WV_DEMUXER) += wv.c apetag.c  
-AVFORMAT_C_FILES-$(CONFIG_XA_DEMUXER) += xa.c  
+AVFORMAT_C_FILES-$(CONFIG_WV_DEMUXER) += wv.c apetag.c
+AVFORMAT_C_FILES-$(CONFIG_XA_DEMUXER) += xa.c
 AVFORMAT_C_FILES-$(CONFIG_XBIN_DEMUXER)              += bintext.c sauce.c
 AVFORMAT_C_FILES-$(CONFIG_XMV_DEMUXER)               += xmv.c
 AVFORMAT_C_FILES-$(CONFIG_XWMA_DEMUXER)              += xwma.c
-AVFORMAT_C_FILES-$(CONFIG_YOP_DEMUXER) += yop.c  
-AVFORMAT_C_FILES-$(CONFIG_YUV4MPEGPIPE_MUXER) += yuv4mpeg.c  
-AVFORMAT_C_FILES-$(CONFIG_YUV4MPEGPIPE_DEMUXER) += yuv4mpeg.c  
-   
+AVFORMAT_C_FILES-$(CONFIG_YOP_DEMUXER) += yop.c
+AVFORMAT_C_FILES-$(CONFIG_YUV4MPEGPIPE_MUXER) += yuv4mpeg.c
+AVFORMAT_C_FILES-$(CONFIG_YUV4MPEGPIPE_DEMUXER) += yuv4mpeg.c
+
 # external libraries
 AVFORMAT_C_FILES-$(CONFIG_LIBMODPLUG_DEMUXER)        += libmodplug.c
 AVFORMAT_C_FILES-$(CONFIG_LIBNUT_DEMUXER)            += libnut.c
 AVFORMAT_C_FILES-$(CONFIG_LIBNUT_MUXER)              += libnut.c
-   
+
 # protocols I/O
-AVFORMAT_C_FILES+= avio.c aviobuf.c  
-   
-AVFORMAT_C_FILES-$(CONFIG_APPLEHTTP_PROTOCOL) += applehttpproto.c  
+AVFORMAT_C_FILES+= avio.c aviobuf.c
+
+AVFORMAT_C_FILES-$(CONFIG_APPLEHTTP_PROTOCOL) += applehttpproto.c
 AVFORMAT_C_FILES-$(CONFIG_CACHE_PROTOCOL)            += cache.c
-AVFORMAT_C_FILES-$(CONFIG_CONCAT_PROTOCOL) += concat.c  
-AVFORMAT_C_FILES-$(CONFIG_CRYPTO_PROTOCOL) += crypto.c  
-AVFORMAT_C_FILES-$(CONFIG_FILE_PROTOCOL) += file.c  
-AVFORMAT_C_FILES-$(CONFIG_GOPHER_PROTOCOL) += gopher.c  
-AVFORMAT_C_FILES-$(CONFIG_HTTP_PROTOCOL) += http.c httpauth.c  
+AVFORMAT_C_FILES-$(CONFIG_CONCAT_PROTOCOL) += concat.c
+AVFORMAT_C_FILES-$(CONFIG_CRYPTO_PROTOCOL) += crypto.c
+AVFORMAT_C_FILES-$(CONFIG_FILE_PROTOCOL) += file.c
+AVFORMAT_C_FILES-$(CONFIG_GOPHER_PROTOCOL) += gopher.c
+AVFORMAT_C_FILES-$(CONFIG_HTTP_PROTOCOL) += http.c httpauth.c
 AVFORMAT_C_FILES-$(CONFIG_HTTPPROXY_PROTOCOL)        += http.c httpauth.c
 AVFORMAT_C_FILES-$(CONFIG_HTTPS_PROTOCOL)            += http.c httpauth.c
-AVFORMAT_C_FILES-$(CONFIG_MMSH_PROTOCOL) += mmsh.c mms.c asf.c  
-AVFORMAT_C_FILES-$(CONFIG_MMST_PROTOCOL) += mmst.c mms.c asf.c  
-AVFORMAT_C_FILES-$(CONFIG_MD5_PROTOCOL) += md5proto.c  
-AVFORMAT_C_FILES-$(CONFIG_PIPE_PROTOCOL) += file.c  
-   
-RTMP-FILES-$(CONFIG_LIBRTMP) = librtmp.c  
-RTMP-FILES-$(!CONFIG_LIBRTMP) = rtmpproto.c rtmppkt.c  
-AVFORMAT_C_FILES-$(CONFIG_RTMP_PROTOCOL) += $(RTMP-FILES-yes)  
-   
-AVFORMAT_C_FILES-$(CONFIG_RTP_PROTOCOL) += rtpproto.c  
-AVFORMAT_C_FILES-$(CONFIG_TCP_PROTOCOL) += tcp.c  
-AVFORMAT_C_FILES-$(CONFIG_TLS_PROTOCOL)              += tls.c
-AVFORMAT_C_FILES-$(CONFIG_UDP_PROTOCOL) += udp.c  
+AVFORMAT_C_FILES-$(CONFIG_MMSH_PROTOCOL) += mmsh.c mms.c asf.c
+AVFORMAT_C_FILES-$(CONFIG_MMST_PROTOCOL) += mmst.c mms.c asf.c
+AVFORMAT_C_FILES-$(CONFIG_MD5_PROTOCOL) += md5proto.c
+AVFORMAT_C_FILES-$(CONFIG_PIPE_PROTOCOL) += file.c
 
-   
-AVFORMAT_C_FILES += $(AVFORMAT_C_FILES-yes)  
-   
-AVFORMAT_SRC_FILES = $(addprefix libavformat/, $(sort $(AVFORMAT_C_FILES)))  
-   
+RTMP-FILES-$(CONFIG_LIBRTMP) = librtmp.c
+RTMP-FILES-$(!CONFIG_LIBRTMP) = rtmpproto.c rtmppkt.c
+AVFORMAT_C_FILES-$(CONFIG_RTMP_PROTOCOL) += $(RTMP-FILES-yes)
+
+AVFORMAT_C_FILES-$(CONFIG_RTP_PROTOCOL) += rtpproto.c
+AVFORMAT_C_FILES-$(CONFIG_TCP_PROTOCOL) += tcp.c
+AVFORMAT_C_FILES-$(CONFIG_TLS_PROTOCOL)              += tls.c
+AVFORMAT_C_FILES-$(CONFIG_UDP_PROTOCOL) += udp.c
+
+AVFORMAT_C_FILES += $(AVFORMAT_C_FILES-yes)
+
+AVFORMAT_SRC_FILES = $(addprefix libavformat/, $(sort $(AVFORMAT_C_FILES)))
+
 LOCAL_SRC_FILES := \
 	$(SWSCALE_SRC_FILES) \
 	$(AVUTIL_SRC_FILES) \
 	$(AVCODEC_SRC_FILES) \
 	$(AVCODEC_ARM_SRC_FILES) \
-	$(AVFORMAT_SRC_FILES)  
-   
-LOCAL_ARM_MODE := arm  
+	$(AVFORMAT_SRC_FILES)
+
+LOCAL_ARM_MODE := arm
 LOCAL_PRELINK_MODULE := false
-   
-include $(BUILD_SHARED_LIBRARY)  
+
+include $(BUILD_SHARED_LIBRARY) 
